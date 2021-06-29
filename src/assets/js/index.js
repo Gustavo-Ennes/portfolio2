@@ -7,8 +7,9 @@ export default class Animation{
 
   constructor(el){
     
-    this.cameraTweens = []
-    this.cameraPoints = []
+    this.isAppended = false
+    this.percent = 0
+    this.label = ''
     this.LOADER = new GLTFLoader()
     this.CAMERALIMITS = {
       x: {
@@ -75,13 +76,20 @@ export default class Animation{
     this.loaded = false
     this.animate = this.animate.bind(this)
     this.element = el
+    this.screen = null
+    this.screenLayer = null
 
   }
 
   async loadModels(){
+    const labelConst = 'Loading model'
+    this.label = `${labelConst} pickleRick`
     this.models['pickleRick'] = await this.loadModel('./models/pickleRick/scene.gltf')
+    this.label = `${labelConst} portalGun`
     this.models['portalGun'] = await this.loadModel('./models/portalGun/scene.gltf')
+    this.label = `${labelConst} plumbus`
     this.models['plumbus'] = await this.loadModel('./models/plumbus/scene.gltf')
+    this.label = `${labelConst} Rick's garage`
     this.staticModels['garage'] = await this.loadModel('./models/rickGarage/scene.gltf')
   }
 
@@ -169,6 +177,8 @@ export default class Animation{
       console.log(err)
     }
   }
+
+  
 
   modelsModifications(obj, name){
     let material
@@ -265,9 +275,7 @@ export default class Animation{
     }
   }
 
-  tweenCamera(to){
-
-    this.stopCameraAnimation()
+  tweenCamera(to, callbacks={}){
 
     if(this.tween){
       this.tween.stop()
@@ -277,7 +285,9 @@ export default class Animation{
     this.tween = new TWEEN.Tween(this.camera.position)
     .to(to.pos, 6000)
     // .delay(200)
+
     .easing(TWEEN.Easing.Quadratic.In)
+
     .onStart( () => {
       const focus = new TWEEN.Tween(this.CAMERATARGET.position)    
       focus.to(to.lookAt, 6000)
@@ -286,11 +296,26 @@ export default class Animation{
         this.camera.updateProjectionMatrix()
       })
       focus.start()    
+      if(callbacks.startParams){
+        callbacks.callback(
+          callbacks.startParams[0], 
+          callbacks.startParams[1], 
+          callbacks.afterStarts
+        )
+      }
     })
+
     .onComplete(() => {  
-      this.startCameraAnimation()
       this.tween = null
+      if(callbacks.endParams){
+        callbacks.callback(
+          callbacks.endParams[0], 
+          callbacks.endParams[1], 
+          callbacks.afterEnds
+        )
+      }
     })
+
     .start()
   }
 
@@ -313,14 +338,26 @@ export default class Animation{
     return new Promise((resolve, reject) => {
       this.LOADER.load(path, (gltf) => {
         resolve(gltf.scene.children[0].children[0].children[0])
-      }, undefined, (err) => reject(err))
+      }, (percent) => {
+        this.percent += ( percent.loaded / percent.total * 100 ) / 4
+      }, (err) => reject(err))
     })
+  }
+
+  onWindowResize() {
+
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix(); 
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+ 
   }
 
   async init(){  
     
+    this.label = "Just a moment"
     await this.loadModels()
-  
+    this.label = 'Finishing init'
+
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x444444)
     // scene.fog = new THREE.Fog({color:0xaaaaaa, far: 5000})
@@ -334,7 +371,6 @@ export default class Animation{
       antialias: true,
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild(this.renderer.domElement)
   
     this.controls = new FlyControls(this.camera, this.renderer.domElement);
     this.controls.object.position.set(58, 173, 5)
@@ -348,8 +384,8 @@ export default class Animation{
     // this.scene.add(await this.loadFont("Kratos"))
   
     this.clock = new THREE.Clock()  
-    this.startCameraAnimation()
-
+    this.percent = 100
+    this.label = "Done!"
   }
 
   addEventListeners(){
@@ -359,6 +395,7 @@ export default class Animation{
         console.log(`camera pos:\n${JSON.stringify(controls.object.position, null, 2)}`)
       }
     });
+    document.addEventListener('resize', this.onWindowResize)
   }
 
   createLight(){
@@ -376,133 +413,33 @@ export default class Animation{
   }
 
   animate(){
-    requestAnimationFrame( this.animate );
-  
-    if(this.isCameraInsideLimits()){
-      this.controls.update(this.clock.getElapsedTime())
-      TWEEN.update()
-    } else {
-      this.putCameraInLimits()
+    if(!this.isAppended){
+    document.body.appendChild(this.renderer.domElement)
+    this.isAppended = true
     }
-  
-    this.animateFalling()
-    this.updateCameraPoints()
-    this.renderer.render( this.scene, this.camera );
-  }
 
-  stopCameraAnimation(){
-    for(let i = 0; i < this.cameraTweens.length; i++){
-      this.cameraTweens[i].stop()
-    }
-  }
+    const _animate = () => {
+      requestAnimationFrame( _animate );
+    
+      if(this.isCameraInsideLimits()){
 
-  generateCameraPoints(){
-    this.cameraPoints = [
-      new THREE.Vector3(
-        this.camera.position.x + 0.4, 
-        this.camera.position.y, 
-        this.camera.position.z
-      ),
-      new THREE.Vector3(
-        this.camera.position.x, 
-        this.camera.position.y + 0.4, 
-        this.camera.position.z
-      ),
-      new THREE.Vector3(
-        this.camera.position.x - 0.4, 
-        this.camera.position.y, 
-        this.camera.position.z
-      ),
-      new THREE.Vector3(
-        this.camera.position.x, 
-        this.camera.position.y - 0.4, 
-        this.camera.position.z
-      )
-    ]
-  }
+        this.controls.update(this.clock.getElapsedTime())
+        TWEEN.update()
 
-  updateCameraPoints(){
-    if(this.cameraPoints.length > 0){
-      this.cameraPoints[0].set(
-        this.camera.position.x + 0.4, 
-        this.camera.position.y , 
-        this.camera.position.z
-      )
-      this.cameraPoints[1].set(
-        this.camera.position.x, 
-        this.camera.position.y + 0.4, 
-        this.camera.position.z
-      )
-      this.cameraPoints[2].set(
-        this.camera.position.x - 0.4, 
-        this.camera.position.y , 
-        this.camera.position.z
-      )
-      this.cameraPoints[3].set(
-        this.camera.position.x , 
-        this.camera.position.y - 0.4, 
-        this.camera.position.z
-      )
-    } else{
-      this.generateCameraPoints()
-    }    
-  }
-
-  updateCameraTweens(){
-    if(this.cameraTweens.length > 0){
-      for(let i = 0; i < this.cameraTweens.length; i++){
-        TWEEN.remove(this.cameraTweens[i])
-        this.cameraTweens[i] = new TWEEN.Tween(this.camera.position).to(this.cameraPoints[i], 5000)
+      } else {
+        this.putCameraInLimits()
       }
-    }
-  }
-
-
-  chainCameraTweens(){
-    for(let i = 0; i < this.cameraTweens.length - 1; i++){
-      // this.cameraTweens[i].delay(100)
-      this.cameraTweens[i].chain(this.cameraTweens[i + 1])
-      this.cameraTweens[i].easing(TWEEN.Easing.Linear.In)
-      this.cameraTweens[i].onUpdate(() => {
-        this.camera.lookAt(this.CAMERATARGET.position)
-        this.camera.updateProjectionMatrix()
-      })
+    
+      this.animateFalling()
+      this.renderer.render( this.scene, this.camera );
     }
 
-    // put repeat on
-    this.cameraTweens[this.cameraTweens.length - 1].chain(this.cameraTweens[0])
+    _animate()
   }
 
-  startCameraAnimation() {
-    // if there are not cameraTweens
-    if(this.cameraTweens.length === 0){
-    // create the points that camera wiil be floating arround
-      
-      this.updateCameraPoints()
-      // one tween to each point in 2 seconds
-      this.cameraTweens.push(new TWEEN.Tween(this.camera.position).to(this.cameraPoints[0], 5000))
-      this.cameraTweens.push(new TWEEN.Tween(this.camera.position).to(this.cameraPoints[1], 5000))
-      this.cameraTweens.push(new TWEEN.Tween(this.camera.position).to(this.cameraPoints[2], 5000))
-      this.cameraTweens.push(new TWEEN.Tween(this.camera.position).to(this.cameraPoints[3], 5000))
-
-      // chain they
-      this.chainCameraTweens()
-
-      // and start the first one
-      this.cameraTweens[0].start()
-
-    }else{
-
-      this.updateCameraPoints()
-      this.updateCameraTweens()
-      this.chainCameraTweens()       
-      this.cameraTweens[0].start()
-    }
-  }
-
-  goto(place){
+  goto(place, callbacks){
     if(place){
-      this.tweenCamera(this.TWEENTARGETS[place])
+      this.tweenCamera(this.TWEENTARGETS[place], callbacks)
     } else{
       console.err(`
         Places that you can go:
