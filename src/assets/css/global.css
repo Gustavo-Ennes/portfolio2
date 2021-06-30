@@ -1,0 +1,24 @@
+
+.btn{
+  margin: 15px;
+}
+
+#text{
+  color:white;
+  text-align: center;
+  opacity: 0;
+  padding:35px !important;
+}
+
+.orientation{
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.7)
+}
+.textWrapper{
+  background-color:rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  border-top-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+}
