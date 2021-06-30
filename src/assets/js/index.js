@@ -300,6 +300,7 @@ export default class Animation{
         callbacks.callback(
           callbacks.startParams[0], 
           callbacks.startParams[1], 
+          callbacks.place,
           callbacks.afterStarts
         )
       }
@@ -311,6 +312,7 @@ export default class Animation{
         callbacks.callback(
           callbacks.endParams[0], 
           callbacks.endParams[1], 
+          callbacks.place,
           callbacks.afterEnds
         )
       }

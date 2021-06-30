@@ -20,33 +20,16 @@
           <small class='orientation'>Use A, S, W, D and arrow keys to explore</small>
         </div>
 
-        <div  id='text' class='col-12 m-0 p-0'>
-          <!-- 
-            the idea in here is to make more divs like the under one to have in it's 
-            contents the html code relative to the button pressed.
-            Every div like this will be binded to the data attribute 'div' in it's key name
-            and will be shown when this.divs[ keyname ] was true
 
-           -->
+        <div id='text' class='col-12'>
 
+          <Initial v-if='divs.initialDiv' />
 
-          <div id='initialText' v-if='divs.initialDiv' class='row justify-content-center align-items-start'>
-            <div class='col-12 textWrapper'>
-            <h1 class='text'>{{title}}</h1>
-            <small class='text'>{{ subTitle}}</small>
-            <p>{{ text }}</p>
-            </div>
-          </div>
+          <Work v-if='divs.frameDiv'/>
 
-          <div id='doorText' v-if='divs.doorDiv' class='row justify-content-center align-items-start'>
-          </div>
+          <Description v-if='divs.chemicalsDiv'/>
 
-          <div id='chemicalsText' v-if='divs.chemicalsText' class='row justify-content-center align-items-start'>
-          </div>
-
-          <div id='frameText' v-if='divs.frameText' class='row justify-content-center align-items-start'>
-          </div>
-
+          <Contact v-if='divs.doorDiv'/>
 
         </div>
       </div>
@@ -55,11 +38,20 @@
 </template>
 
 <script>
-
+import Initial from '../components/Initial.vue';
+import Work from '../components/Work.vue';
+import Description from '../components/Description.vue';
+import Contact from '../components/Contact.vue';
 
 export default {
   name: "Animation",
   props: ['animation'],
+  components:{
+    Initial,
+    Work,
+    Description,
+    Contact
+  },
   data(){
     return {
       title: "Hey, I'm Gustavo!",
@@ -76,13 +68,15 @@ export default {
   methods: {
     changeDivTo(div){
       const setDivsToFalse = () => {
-
         const keys = Object.keys(this.divs)
         for(let  i = 0; i < keys.length; i++){
           this.divs[keys[i]] = false
         }
       }
-      setDivsToFalse()
+
+      setDivsToFalse();
+      console.dir(this.divs)
+
       switch(div){
         case 'door':
           this.divs['doorDiv'] = true
@@ -92,7 +86,6 @@ export default {
           break;
         case 'chemicals':
           this.divs['chemicalsDiv'] = true
-
           break;
         default: 
           console.warn(`There's no such a div: ${div}`);
@@ -101,23 +94,29 @@ export default {
       }
     },
     goto(place){
-      this.animation.goto(place, this.getTextAnimations({starts:'hide', ends:'show'}))
+      this.animation.goto(place, this.getTextAnimations({starts:'hide', ends:'show', place: place}))
     },
-    animateCSS(element, animation,afterAnimates=null, prefix = 'animate__',){
+    animateCSS(element, animation, place=null, afterAnimates=null, prefix = 'animate__',){
       // We create a Promise and return it
       const animationName = `${prefix}${animation}`;
       const node = document.querySelector(element);
+      const changeToDiv = this.changeDivTo
+
       const handleAnimationStart = (event) => {
         event.stopPropagation()
         if(afterAnimates === 'show'){
-          node.style.setProperty('opacity', '100')
+          node.style.setProperty('opacity', 100)
+          if(place){
+            changeToDiv(place)
+            console.log(place)
+          }
         }
       }
       const handleAnimationEnd = (event) => {
         event.stopPropagation();
         node.classList.remove(`${prefix}animated`, animationName);
         if(afterAnimates === 'hide'){
-          node.style.setProperty('opacity', '0')
+          node.style.setProperty('opacity', 0)
         }
       };
 
@@ -139,9 +138,15 @@ export default {
         endParams: ['#text', 'zoomInDown'],
         startParams: ['#text', 'zoomOutUp'],  
         afterStarts: after.starts,
-        afterEnds: after.ends
+        afterEnds: after.ends,
+        place: after.place
       }   
     }
+  },
+  mounted(){
+    setTimeout(() => {
+      this.animateCSS('#text', 'zoomInUp', null, 'show');
+    }, 500)
   }
 };
 
@@ -150,30 +155,10 @@ export default {
 
 <style scoped>
 
-  .orientation{
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    color: rgba(255, 255, 255, 0.7)
-  }
   .appWrapper{
     position: relative !important;
 
   }
-  .textWrapper{
-    background-color:rgba(0, 0, 0, 0.75);
-  }
-  .text{
-    color:white;
-    text-align: center;
-  }
-  .btn{
-    margin: 15px;
-  }
-
-  /* .col-4{
-    height: 20px;
-  } */
 
   #info {
     position: fixed;
