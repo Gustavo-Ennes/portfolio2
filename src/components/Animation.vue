@@ -23,13 +23,20 @@
 
         <div id='text' class='col-12'>
 
+
+
+
+
+
+
+
           <Initial v-if='divs.initialDiv' />
 
-          <Work v-if='divs.frameDiv'/>
+          <Work :clock='animation.clock' v-if='divs.doorDiv'/>
 
           <Description v-if='divs.chemicalsDiv'/>
 
-          <Contact v-if='divs.doorDiv'/>
+          <Contact v-if='divs.frameDiv'/>
 
         </div>
       </div>
@@ -62,10 +69,13 @@ export default {
         frameDiv: false,
         chemicalsDiv: false,
         initialDiv: true
-      }
+      },
     }
   },
   methods: {
+    slideToIsZero(){
+      return this.slideTo === 0
+    },
     changeDivTo(div){
       const setDivsToFalse = () => {
         const keys = Object.keys(this.divs)
@@ -108,7 +118,6 @@ export default {
           node.style.setProperty('opacity', 100)
           if(place){
             changeToDiv(place)
-            console.log(place)
           }
         }
       }

@@ -1,5 +1,5 @@
 <template>
-  <div id='doorText' class='row justify-content-center align-items-start'>
+  <div id='frameText' class='row justify-content-center align-items-start'>
     <div class='col-12 textWrapper'>
 
     </div>
