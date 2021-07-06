@@ -1,32 +1,19 @@
 <template>
 
-  <main class='textWrapper p-1 m-1'>
+  <section class='textWrapper'>
 
-    <!-- 
-      the main component will have one button to each project
-      when button is pressed, another div with project infos will
-      appear after the past div desapear by animate.css
-
-      wil be divided in three divs
-      left column to left arrow, right to the right one
-      and in the center the biggest div will show both, a project and all projects minified
-      this center div will be diveded in two horizontally
-      the biggest one to to the project itself and another one 
-      to the minified projects, let's go
-     -->
-
-     <div class='row justify-around align-items-start'>
+     <div class='row'>
        <!-- left arrow -->
        <div class='col-1 align-self-center'>
         <i id='leftArrow' class="fas fa-chevron-left arrowColor" @click='leftArrowClickHandler'></i>
        </div>
 
       <!-- main component -->
-       <div class='col-10'>
+       <div class='col-10 align-self-center'>
           <div class='row'>
 
             <!-- projects itself -->
-            <div class='col-12 align-self-start h-75'>
+            <div class='col-12 align-self-start'>
               <div id='projects'>
                 <div class='row justify-content-around align-items-center'>
                   <div class='col-12'
@@ -36,7 +23,42 @@
                     <!-- project -->
                     <div class='project' v-if='isPointingToProject(work.name)'>
 
-                      {{ work.name }}
+                      <h1 class='title titleFont'>{{ work.title }}</h1>
+                      <div class='contacts'>
+                        <div class='row justify-content-around'>
+                          <!-- github link -->
+                          <div class="col">
+                            <div class='link' data-bs-toggle="tooltip" data-bs-placement="bottom" title="See my github repo">
+                              <i class='fab fa-github-alt'></i><br/>
+                              <small class='d-lg-none iconLabel'>repo</small>
+                            </div>
+                          </div>
+                          <!-- presentation link -->
+                          <div class="col">
+                            <div class='link' data-bs-toggle="tooltip" data-bs-placement="bottom" title="More  details about this project">
+                              <i class=' fas fa-cog'></i><br/>
+                              <small class='d-lg-none iconLabel'>details</small>
+                            </div>
+                          </div>
+                          <!-- site  -->
+                          <div class="col">
+                            <div class='link' data-bs-toggle="tooltip" data-bs-placement="bottom" title="Visit this project">
+                              <i class=' far fa-eye'></i><br/>
+                              <small class='d-lg-none iconLabel'>site</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <small class='d-lg-block d-none subTitle subTitleFont'> {{ work.subTitle }} </small>
+                      <p class='description descriptionFont'> {{ work.description }} </p>
+                      <div class='techs mt-1'>
+                        <div class='row justify-content-around'>
+                          <div class='col' v-for='tech in work.usedTechs' :key='tech'>
+                            <small class='tech titleFont'>{{ tech }}</small>
+                          </div>
+                        </div>
+                      </div>
+                      
                     </div>
                   </div>
 
@@ -46,7 +68,7 @@
             
             </div>
           <!-- all projects minified -->
-            <div class='col-12 align-self-end'>
+            <div class='col-12 align-self-end mt-0'>
               <div class='row justify-content-around align-items-center'>
                 <div class='col'
                 v-for='work in works' 
@@ -69,7 +91,7 @@
 
      </div>
 
-  </main>
+  </section>
 
 </template>
 
@@ -155,7 +177,7 @@ export default {
         method: 'get'
       })
       this.works = res.data.projects
-    }
+    },
   },
   async mounted(){
     await this.getWorks()
@@ -163,36 +185,58 @@ export default {
       this.projectIndex = 0
       this.projectPointer = this.works[this.projectIndex].name
     }
-    console.log(`
-     index: ${this.projectIndex}
-     pointer: ${this.projectPointer}
-    `)
   }
 
 }
 </script>
 
-<style scoped>
-.arrowColor{
-  color: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  font-size:25px;
+<style scoped>  
+/* #projects{
+  height:85%;
+  width:100%;
+} */
+.description{
+  font-size:2.5vw !important;
 }
-.arrowColor:hover{
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 30px;
+.tech{
+  font-size:2.2vw !important;
   
 }
-.minHeight{
-  min-height: 70% !important;
+.contacts{
+  bottom: 20px;
+
+}
+.arrowColor{
+  color: rgba(255, 230, 121, 0.589);
+  cursor: pointer;
+  font-size:15px;
+  text-align: center !important;
+}
+.arrowColor:hover{
+  color: rgba(255, 230, 121, 0.689);
+  font-size: 20px;
 }
 .smallText{
-  font-size:10px;
+  font-size:2.1vw !important;
+  bottom:10px;
+  margin-top: 30px;
+}
+.subTitle{
+  margin:20px;
+  font-size:3vw;
+  color:rgba(255, 230, 121, 0.589);
 }
 
 .selectedMinified{
-  color: rgba(255, 200, 200, 0.7);
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3)
+  font-family: "Bebas Neue", cursive;
+  color:rgba(255, 230, 121, 0.589);
+  font-size:4vw;
+  font-style: oblique;
+  
 }
+.link{
+  font-size: 2.3vw;
+}
+
 
 </style>

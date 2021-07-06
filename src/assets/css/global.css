@@ -1,6 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=East+Sea+Dokdo&family=Truculenta:wght@100&display=swap');
 
-.btn{
-  margin: 15px;
+html, body{
+  height:100%;
+  width:100%;
+  overflow: hidden;
+}
+.appWrapper{
+  height: 100% !important;
+  width: 100% !important;
+  top:12px;
+  left:12px;
+  position: relative;
+  
+}
+
+.titleFont{
+  font-family: "Bebas Neue", cursive;
+}
+.subTitleFont{
+  font-family: "East Sea Dokdo", cursive;
+}
+.descriptionFont{
+  font-family: "Truculenta", sans-serif;
 }
 
 #text{
@@ -8,6 +29,7 @@
   text-align: center;
   opacity: 0;
   padding:35px !important;
+  height: 100%
 }
 
 .orientation{
@@ -17,9 +39,36 @@
   color: rgba(255, 255, 255, 0.7)
 }
 .textWrapper{
-  background-color:rgba(0, 0, 0, 0.75);
+  position: relative;
+  background-color:rgba(0, 0, 0, 0.85);
   border-radius: 10px;
   border-top-left-radius: 30px !important;
   border-bottom-right-radius: 30px !important;
-  padding: 20px;
+  padding: 10px;
+  width:100% !important;
+}
+
+@media(max-width:600px){
+  p, .project{
+    font-size:5vw !important;
+  }
+}
+@media(max-width: 990px){
+  .textWrapper{
+    top: -20px;
+  }
+  p, .project{
+    font-size: 3.1vw !important;
+    margin:0
+  }
+}
+@media(min-width: 991px){
+  p, .project{
+    font-size: 1.7vw !important;
+  }
+} 
+@media(max-height: 400px){
+  .textWrapper{
+    top: -47px !important;
+  }
 }

@@ -1,34 +1,22 @@
 <template>
   <main>
-    <div id="app"></div>
-    <div class='appWapper position-relative d-flex'>
-      <div id='info' class='row justify-content-around align-items-start'>
+    <canvas id='canvas'></canvas>
+    <div class='appWrapper'>
+      <div id='info' class='row justify-content-center'>
 
-        <div class='col-4' @mouseup="goto('chemicals')">
-          <button class='btn btn-outline-light'>Description</button>
+        <div class='col-4 text-center' @mouseup="goto('chemicals')">
+          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Description</small></button>
         </div>
 
-        <div class='col-4' @mouseup="goto('door')">
-          <button class='btn btn-outline-light'>Work</button>
+        <div class='col-4 text-center' @mouseup="goto('door')">
+          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Work</small></button>
         </div>
 
-        <div class='col-4' @mouseup="goto('frame')">
-          <button class='btn btn-outline-light'>Contact</button>
+        <div class='col-4 text-center' @mouseup="goto('frame')">
+          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Contact</small></button>
         </div>
 
-        <div class='col-12'>
-          <small class='orientation'>Use A, S, W, D and arrow keys to explore</small>
-        </div>
-
-
-        <div id='text' class='col-12'>
-
-
-
-
-
-
-
+        <div id='text' class='col-12 align-self-center'>
 
           <Initial v-if='divs.initialDiv' />
 
@@ -39,6 +27,9 @@
           <Contact v-if='divs.frameDiv'/>
 
         </div>
+
+        <small class='orientation'>Use A, S, W, D and arrow keys to explore</small>
+
       </div>
     </div>
   </main>
@@ -150,12 +141,24 @@ export default {
         afterEnds: after.ends,
         place: after.place
       }   
+    },
+    addOrientationAnimation(){
+      const el = document.querySelector(".orientation")
+      el.classList.add('animate__animated', 'animate__hinge', 'animate__delay-3s')
+      el.addEventListener('animationend', () => {
+        el.classList.add("d-none")
+        el.classList.remove('animate__animated', 'animate__hinge', 'animate__delay-3s')
+      })
     }
   },
   mounted(){
     setTimeout(() => {
       this.animateCSS('#text', 'zoomInUp', null, 'show');
     }, 500)
+
+    document.querySelector('canvas').style.setProperty('height', window.innerHeight)
+    document.querySelector('canvas').style.setProperty('width', window.innerWidth)
+    this.addOrientationAnimation()
   }
 };
 
@@ -163,23 +166,34 @@ export default {
 </script>
 
 <style scoped>
+  main{
+    position:relative;
+    top:0;
+    right:0;
+    margin:0;
+    z-index: 1;
+  }
 
   .appWrapper{
     position: relative !important;
-
+  }
+  #canvas{
+    position:absolute;
+    top: 0;
+    left: 0;
+    height:100%;
+    width:100%;
+    overflow: hidden;
+    z-index:0;
   }
 
   #info {
-    position: fixed;
-    padding:0;
-    margin:0;
+    position: relative;
     top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
+    right:0;
+    height:100% !important;
+    width: 100% !important;
 
-    text-align: center;
-    z-index: 100;
   }
 
 
