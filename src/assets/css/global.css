@@ -5,14 +5,6 @@ html, body{
   width:100%;
   overflow: hidden;
 }
-.appWrapper{
-  height: 100% !important;
-  width: 100% !important;
-  top:12px;
-  left:12px;
-  position: relative;
-  
-}
 
 .titleFont{
   font-family: "Bebas Neue", cursive;
@@ -36,11 +28,12 @@ html, body{
   position: absolute;
   bottom: 15px;
   right: 10px;
-  color: rgba(255, 255, 255, 0.7)
+  color: rgba(255, 255, 255, 0.7);
+  z-index:3;
 }
 .textWrapper{
-  position: relative;
-  background-color:rgba(0, 0, 0, 0.85);
+  background-color:rgba(0, 17, 0, 0.8);
+  color:rgb(225, 240, 255);
   border-radius: 10px;
   border-top-left-radius: 30px !important;
   border-bottom-right-radius: 30px !important;

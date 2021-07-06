@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Animation v-if='isLoaded' :animation='animation' v-show='isLoaded'/>
+    <Animation v-if='isLoaded' :animation='animation' v-show='isLoaded' :controls='getControls()'/>
     <ProgressBar :label='label' :progress='progress' v-else/>
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
   data(){
     return {
       animation: null,
+    }
+  },
+  methods:{
+    getControls(){
+      return this.animation.controls
     }
   },
   computed: {

@@ -191,15 +191,12 @@ export default {
 </script>
 
 <style scoped>  
-/* #projects{
-  height:85%;
-  width:100%;
-} */
 .description{
   font-size:2.5vw !important;
+  color:rgb(225, 240, 255);
 }
 .tech{
-  font-size:2.2vw !important;
+  font-size:2vw !important;
   
 }
 .contacts{
@@ -207,13 +204,13 @@ export default {
 
 }
 .arrowColor{
-  color: rgba(255, 230, 121, 0.589);
+  color:rgb(225, 240, 255);
   cursor: pointer;
   font-size:15px;
   text-align: center !important;
 }
 .arrowColor:hover{
-  color: rgba(255, 230, 121, 0.689);
+  color:rgb(235, 250, 255);
   font-size: 20px;
 }
 .smallText{
@@ -236,6 +233,10 @@ export default {
 }
 .link{
   font-size: 2.3vw;
+}
+
+.title{
+  color:rgb(225, 240, 255);
 }
 
 

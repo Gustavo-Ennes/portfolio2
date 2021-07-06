@@ -1,19 +1,21 @@
 <template>
   <main>
-    <canvas id='canvas'></canvas>
-    <div class='appWrapper'>
-      <div id='info' class='row justify-content-center'>
+    <div id='canvas'>
+      <canvas></canvas>
+    </div>
+    <div class='appWrapper text-center'>
+      <div id='info' class='row'>
 
-        <div class='col-4 text-center' @mouseup="goto('chemicals')">
-          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Description</small></button>
+        <div class='col-4' @mouseup="goto('chemicals')">
+          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Description</small></button>
         </div>
 
-        <div class='col-4 text-center' @mouseup="goto('door')">
-          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Work</small></button>
+        <div class='col-4' @mouseup="goto('door')">
+          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Work</small></button>
         </div>
 
-        <div class='col-4 text-center' @mouseup="goto('frame')">
-          <button class='btn btn-sm btn-outline-light'><small class='m-2'>Contact</small></button>
+        <div class='col-4' @mouseup="goto('frame')">
+          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Contact</small></button>
         </div>
 
         <div id='text' class='col-12 align-self-center'>
@@ -30,6 +32,8 @@
 
         <small class='orientation'>Use A, S, W, D and arrow keys to explore</small>
 
+        
+
       </div>
     </div>
   </main>
@@ -43,7 +47,7 @@ import Contact from '../components/Contact.vue';
 
 export default {
   name: "Animation",
-  props: ['animation'],
+  props: ['animation', 'controls'],
   components:{
     Initial,
     Work,
@@ -52,9 +56,6 @@ export default {
   },
   data(){
     return {
-      title: "Hey, I'm Gustavo!",
-      subTitle: "full-stack web developer",
-      text: '',
       divs: {
         doorDiv: false,
         frameDiv: false,
@@ -166,17 +167,7 @@ export default {
 </script>
 
 <style scoped>
-  main{
-    position:relative;
-    top:0;
-    right:0;
-    margin:0;
-    z-index: 1;
-  }
 
-  .appWrapper{
-    position: relative !important;
-  }
   #canvas{
     position:absolute;
     top: 0;
@@ -188,12 +179,17 @@ export default {
   }
 
   #info {
-    position: relative;
+    position: fixed;
+    z-index:1;
     top:0;
-    right:0;
+    left:13px;
     height:100% !important;
     width: 100% !important;
 
+  }
+
+  .btn{
+    margin:5px;
   }
 
 

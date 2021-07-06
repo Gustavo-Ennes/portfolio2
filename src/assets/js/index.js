@@ -371,7 +371,7 @@ export default class Animation{
     this.camera.updateProjectionMatrix()
   
     this.renderer = new THREE.WebGLRenderer({
-      canvas: document.querySelector("#canvas"), 
+      canvas: document.querySelector("#canvas canvas"), 
       antialias: true,
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
