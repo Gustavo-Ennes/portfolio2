@@ -1,13 +1,13 @@
 <template>
   <div id='chemicalsText' class='row justify-content-center align-items-start'>
     <div class='col-12 textWrapper'>
-      <p>
+      <p class='descriptionFont'>
         Web development using Node.js, Python, Java in server, 
         storing in no-sql database like mongoDB or a relational one, 
         and handling the client side with the awesome Vue.js....
       </p>
 
-      <p>
+      <p class='descriptionFont'>
         I'm a problem solver who wants to increase daily my efficiency at solution searching, 
         its applications and implications. A Brazil based beginner in web development, 
         I'm a Information Systems Bachelor student who desires to increase my skills 
@@ -32,6 +32,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  p{
+    font-size:4.2vw !important;
+  }
 </style>

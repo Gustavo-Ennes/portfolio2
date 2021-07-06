@@ -351,6 +351,8 @@ export default class Animation{
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix(); 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById("canvas").style.setProperty('height', window.innerHeight);
+    document.getElementById('canvas').style.setProperty('width', window.innerWidth);
  
   }
 
@@ -369,7 +371,7 @@ export default class Animation{
     this.camera.updateProjectionMatrix()
   
     this.renderer = new THREE.WebGLRenderer({
-      // canvas: this.canvas, 
+      canvas: document.querySelector("#canvas"), 
       antialias: true,
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -415,10 +417,10 @@ export default class Animation{
   }
 
   animate(){
-    if(!this.isAppended){
-    document.body.appendChild(this.renderer.domElement)
-    this.isAppended = true
-    }
+    // if(!this.isAppended){
+    // document.body.appendChild(this.renderer.domElement)
+    // this.isAppended = true
+    // }
 
     const _animate = () => {
       requestAnimationFrame( _animate );
