@@ -29,8 +29,9 @@
           <Contact v-if='divs.frameDiv'/>
 
         </div>
-
+        
         <small class='orientation d-none d-lg-block'>Use A, S, W, D and arrow keys to explore</small>
+
 
         <div class='absolute d-lg-none'>
           <FlyControls />
@@ -85,7 +86,6 @@ export default {
       }
 
       setDivsToFalse();
-      console.dir(this.divs)
 
       switch(div){
         case 'door':
@@ -154,10 +154,6 @@ export default {
     addOrientationAnimation(){
       const el = document.querySelector(".orientation")
       el.classList.add('animate__animated', 'animate__hinge', 'animate__delay-3s')
-      el.addEventListener('animationend', () => {
-        el.classList.add("d-none")
-        el.classList.remove('animate__animated', 'animate__hinge', 'animate__delay-3s')
-      })
     }
   },
   mounted(){

@@ -30,10 +30,11 @@ html, body{
 
 .orientation{
   position: absolute;
-  bottom: 15px;
+  bottom: 25px;
   right: 10px;
+  width:auto;
   color: rgba(255, 255, 255, 0.7);
-  z-index:3;
+  z-index:2;
 }
 .textWrapper{
   background-color:rgba(0, 17, 0, 0.8);
@@ -42,7 +43,9 @@ html, body{
   border-top-left-radius: 30px !important;
   border-bottom-right-radius: 30px !important;
   padding: 10px;
+  height: 10% !important;
   width:100% !important;
+  overflow: hidden;
 }
 
 @media(max-width:600px){
@@ -59,9 +62,14 @@ html, body{
     margin:0
   }
 }
-@media(min-width: 991px){
+@media(min-width: 1023px){
   p, .project{
     font-size: 1.7vw !important;
+  }
+}
+@media(min-width: 991px){
+  p, .project{
+    font-size: 1.4vw !important;
   }
 } 
 @media(max-height: 400px){
