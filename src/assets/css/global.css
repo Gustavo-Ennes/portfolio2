@@ -5,6 +5,10 @@ html, body{
   width:100%;
   overflow: hidden;
 }
+@font-face {
+  font-family: 'rickAndMorty';
+  src: url('font/get_schwifty.ttf');
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -27,6 +31,9 @@ html, body{
   background: rgba(97, 121, 97, 0.4);
 }
 
+.rickFont{
+  font-family: "rickAndMorty", cursive;
+}
 .titleFont{
   font-family: "Teko", cursive;
   text-transform:uppercase;

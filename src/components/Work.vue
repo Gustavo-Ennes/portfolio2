@@ -23,7 +23,7 @@
                     <!-- project -->
                     <div class='project' v-if='isPointingToProject(work.name)'>
 
-                      <h1 class='title titleFont'>{{ work.title }}</h1>
+                      <h1 class='title rickFont'>{{ work.title }}</h1>
                       <div class='contacts'>
                         <div class='row justify-content-around'>
                           <!-- github link -->
@@ -68,16 +68,17 @@
             
             </div>
           <!-- all projects minified -->
-            <div class='col-12 align-self-end mt-0'>
-              <div class='row justify-content-around align-items-center'>
-                <div class='col'
-                v-for='work in works' 
-                :key='work.name'
-                >
-                  <p class='smallText' :class='{"selectedMinified" : isPointingToProject(work.name)}'>{{ work.name }}</p>
+            <div class='col-12 align-self-end'>
+              <div class='mt-1'>
+                <div class='row justify-content-around align-items-center'>
+                  <div class='col'
+                  v-for='work in works' 
+                  :key='work.name'
+                  >
+                    <p class='smallText' :class='{"selectedMinified" : isPointingToProject(work.name)}'>{{ work.name }}</p>
+                  </div>
                 </div>
               </div>
-            
 
             </div>
 
@@ -222,7 +223,6 @@ export default {
   margin-top: 30px;
 }
 .subTitle{
-  margin:20px;
   font-size:3vw;
   color:rgba(255, 230, 121, 0.589);
 }

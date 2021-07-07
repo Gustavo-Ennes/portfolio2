@@ -7,15 +7,15 @@
       <div id='info' class='row justify-content-around'>
 
         <div class='col' @mouseup="goto('chemicals')">
-          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Description</small></button>
+          <button id='descriptionBtn' class='btn btn-sm btn-outline-success descriptionFont'><small class='m-2'>Description</small></button>
         </div>
 
         <div class='col' @mouseup="goto('door')">
-          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Work</small></button>
+          <button id='workBtn' class='btn btn-sm btn-outline-success descriptionFont'><small class='m-2'>Work</small></button>
         </div>
 
         <div class='col' @mouseup="goto('frame')">
-          <button class='btn btn-sm btn-outline-success'><small class='m-2'>Contact</small></button>
+          <button id='contactBtn' class='btn btn-sm btn-outline-success descriptionFont'><small class='m-2'>Contact</small></button>
         </div>
 
         <div id='text' class='col-12 align-self-center'>
@@ -154,6 +154,28 @@ export default {
     addOrientationAnimation(){
       const el = document.querySelector(".orientation")
       el.classList.add('animate__animated', 'animate__hinge', 'animate__delay-6s')
+    },
+    addButtonsAnimation(){
+
+      const descriptionBtn = document.querySelector('#descriptionBtn')
+      const workBtn = document.querySelector('#workBtn')
+      const contactBtn = document.querySelector('#contactBtn')
+      
+      descriptionBtn.classList.add(
+        'animate__animated',
+        'animate__fadeInLeftBig',
+        'animate__duration-3s'
+      )
+      workBtn.classList.add(
+        'animate__animated',
+        'animate__fadeInDownBig',
+        'animate__duration-3s'
+      )
+      contactBtn.classList.add(
+        'animate__animated',
+        'animate__fadeInRightBig',
+        'animate__duration-3s'
+      )      
     }
   },
   mounted(){
@@ -164,6 +186,7 @@ export default {
     document.querySelector('canvas').style.setProperty('height', window.innerHeight)
     document.querySelector('canvas').style.setProperty('width', window.innerWidth)
     this.addOrientationAnimation()
+    this.addButtonsAnimation()
   }
 };
 

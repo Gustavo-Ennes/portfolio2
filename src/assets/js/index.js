@@ -294,6 +294,42 @@ export default class Animation{
       })
     }
 
+    const animateButtons = (way) => {
+      const descriptionBtn = document.querySelector('#descriptionBtn')
+      const workBtn = document.querySelector('#workBtn')
+      const contactBtn = document.querySelector('#contactBtn')
+      
+      descriptionBtn.classList.remove(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeOutLeftBig' : 'animate__fadeInLeftBig',
+        'animate__duration-3s'
+      )
+      descriptionBtn.classList.add(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeInLeftBig' : 'animate__fadeOutLeftBig',
+        'animate__duration-3s'
+      )
+      workBtn.classList.remove(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeOutDownBig' : 'animate__fadeInUpBig' ,
+        'animate__duration-3s' 
+      )
+      workBtn.classList.add(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeInUpBig' : 'animate__fadeOutDownBig',
+        'animate__duration-3s'
+      )
+      contactBtn.classList.remove(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeOutRightBig' : 'animate__fadeInRightBig',
+        'animate__duration-3s'
+      )
+      contactBtn.classList.add(
+        'animate__animated',
+        way === 'in' ? 'animate__fadeInRightBig' : 'animate__fadeOutRightBig',
+        'animate__duration-3s'
+      )      
+    }
 
     if(this.tween){
       this.tween.stop()
@@ -304,7 +340,10 @@ export default class Animation{
     .to(to.pos, 6000)
     .easing(TWEEN.Easing.Quadratic.In)
     .onStart( () => {
+
       animateFlyControls('out')
+      animateButtons('out')
+
       const focus = new TWEEN.Tween(this.CAMERATARGET.position)    
       focus.to(to.lookAt, 6000)
       focus.onUpdate(() => {
@@ -324,6 +363,8 @@ export default class Animation{
     .onComplete(() => {  
       this.tween = null
       animateFlyControls('in')
+      animateButtons('in')
+
       if(callbacks.endParams){
         callbacks.callback(
           callbacks.endParams[0], 
