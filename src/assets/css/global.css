@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=East+Sea+Dokdo&family=Truculenta:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monda&family=Teko:wght@300&display=swap');
 
 html, body{
   height:100%;
@@ -6,14 +6,37 @@ html, body{
   overflow: hidden;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(97, 121, 97, 0.3);
+  border-radius:360px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(97, 121, 97, 0.4);
+}
+
 .titleFont{
-  font-family: "Bebas Neue", cursive;
+  font-family: "Teko", cursive;
+  text-transform:uppercase;
 }
 .subTitleFont{
-  font-family: "East Sea Dokdo", cursive;
+  font-family: "Teko", cursive;
 }
 .descriptionFont{
-  font-family: "Truculenta", sans-serif;
+  font-family: "Monda", cursive;
+  
 }
 .appWrapper{
   height:100% !important;
@@ -43,14 +66,14 @@ html, body{
   border-top-left-radius: 30px !important;
   border-bottom-right-radius: 30px !important;
   padding: 10px;
-  height: 10% !important;
   width:100% !important;
   overflow: hidden;
+  box-shadow: 1px 3px 100px 1px rgba(255, 255, 0, 0.07);
 }
 
-@media(max-width:600px){
+@media(max-width: 1024px){
   p, .project{
-    font-size:5vw !important;
+    font-size: 1.8vw !important;
   }
 }
 @media(max-width: 990px){
@@ -62,16 +85,12 @@ html, body{
     margin:0
   }
 }
-@media(min-width: 1023px){
-  p, .project{
-    font-size: 1.7vw !important;
+@media(max-width: 600px){
+  p, .project, #chemicalsText{
+    font-size:5.5vw !important;
+    margin: 0 !important;
   }
 }
-@media(min-width: 991px){
-  p, .project{
-    font-size: 1.4vw !important;
-  }
-} 
 @media(max-height: 400px){
   .textWrapper{
     top: -47px !important;
