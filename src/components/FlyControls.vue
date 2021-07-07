@@ -57,19 +57,6 @@ export default {
         way === 'in' ? 'animate__zoomIn' : 'animate__zoomOut',
         'animate__duration-200ms',
       )
-
-      el.addEventListener('animationstart', () => {
-        this.isAnimating = true
-      })
-
-      el.addEventListener('animationend', () => {
-        el.classList.remove(
-          'animate__animated',
-          way === 'in' ? 'animate__zoomIn' : 'animate__zoomOut',
-          'animate__duration-200ms',
-        );
-        this.isAnimating = false
-      })
     },
     addEventListeners(){
       const l = document.querySelector('.arrowLeft')
@@ -84,6 +71,7 @@ export default {
         arrow.addEventListener('mousedown', () => {
           this.animateTextDiv('out')
         });
+        
         arrow.addEventListener('mouseup', () => {
           this.animateTextDiv('in')
         });
@@ -92,6 +80,16 @@ export default {
         });
         arrow.addEventListener('touchend', () => {
           this.animateTextDiv('in')
+        });
+        window.addEventListener('keydown', (e) => {
+          if(e.code === 'ArrowRight' || e.code === "ArrowLeft" || e.code === "KeyW" || e.code === 'KeyS'){
+            this.animateTextDiv('out')
+          }
+        })
+        window.addEventListener('keyup', (e) => {
+          if(e.code === 'ArrowRight' || e.code === "ArrowLeft" || e.code === "KeyW" || e.code === 'KeyS'){
+            this.animateTextDiv('in')
+          }
         })
       })
 
@@ -179,7 +177,7 @@ export default {
 .fly-controls-wrapper{
     background-color:rgba(0, 0, 0, 0.55);
     box-shadow:1px 2px 5px 2px rgba(0, 0, 0, 0.55);
-    border:0.2px solid rgba(0, 0, 0, 0.66);
+    border:1px solid rgba(0, 0, 0, 0.4);
     width:80%;
     bottom:0;
     z-index:3;
