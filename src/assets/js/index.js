@@ -277,6 +277,24 @@ export default class Animation{
 
   tweenCamera(to, callbacks={}){
 
+    const animateFlyControls = (way) => {
+      const el = document.querySelector('.fly-controls-wrapper')
+      el.style.setProperty('opacity', way === 'in' ? 1 : 0)
+      el.classList.add(
+        'animate__animated',
+        way === 'in' ? 'animate__rotateIn' : 'animate__rotateOut',
+        'animate__delay-300ms'
+      )
+      el.addEventListener('animationend', () => {
+        el.classList.remove(
+          'animate__animated',
+          way === 'in' ? 'animate__rotateIn' : 'animate__rotateOut',
+          'animate__delay-300ms'
+        )
+      })
+    }
+
+
     if(this.tween){
       this.tween.stop()
       TWEEN.remove(this.tween)
@@ -284,11 +302,9 @@ export default class Animation{
 
     this.tween = new TWEEN.Tween(this.camera.position)
     .to(to.pos, 6000)
-    // .delay(200)
-
     .easing(TWEEN.Easing.Quadratic.In)
-
     .onStart( () => {
+      animateFlyControls('out')
       const focus = new TWEEN.Tween(this.CAMERATARGET.position)    
       focus.to(to.lookAt, 6000)
       focus.onUpdate(() => {
@@ -305,9 +321,9 @@ export default class Animation{
         )
       }
     })
-
     .onComplete(() => {  
       this.tween = null
+      animateFlyControls('in')
       if(callbacks.endParams){
         callbacks.callback(
           callbacks.endParams[0], 

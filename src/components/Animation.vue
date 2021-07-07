@@ -30,9 +30,11 @@
 
         </div>
 
-        <small class='orientation'>Use A, S, W, D and arrow keys to explore</small>
+        <small class='orientation d-none d-lg-block'>Use A, S, W, D and arrow keys to explore</small>
 
-        
+        <div class='absolute d-lg-none'>
+          <FlyControls />
+        </div>
 
       </div>
     </div>
@@ -44,11 +46,12 @@ import Initial from '../components/Initial.vue';
 import Work from '../components/Work.vue';
 import Description from '../components/Description.vue';
 import Contact from '../components/Contact.vue';
+import FlyControls from '../components/FlyControls.vue';
 
 export default {
   name: "Animation",
-  props: ['animation', 'controls'],
   components:{
+    FlyControls,
     Initial,
     Work,
     Description,
@@ -62,6 +65,11 @@ export default {
         chemicalsDiv: false,
         initialDiv: true
       },
+    }
+  },
+  computed:{
+    animation(){
+      return this.$store.state.animation
     }
   },
   methods: {
@@ -186,6 +194,14 @@ export default {
     height:100% !important;
     width: 100% !important;
 
+  }
+  .absolute{
+    position:absolute;
+    z-index:3;
+    width:50% !important;
+    height:50% !important;
+    right:-8vw;
+    bottom:-28vh;
   }
 
   .btn{
