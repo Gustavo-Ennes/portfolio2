@@ -191,6 +191,9 @@ export default {
 </script>
 
 <style scoped>  
+
+
+
 .description{
   font-size:2.5vw !important;
   color:rgb(225, 240, 255);

@@ -4,17 +4,17 @@
       <canvas></canvas>
     </div>
     <div class='appWrapper text-center'>
-      <div id='info' class='row'>
+      <div id='info' class='row justify-content-around'>
 
-        <div class='col-4' @mouseup="goto('chemicals')">
+        <div class='col' @mouseup="goto('chemicals')">
           <button class='btn btn-sm btn-outline-success'><small class='m-2'>Description</small></button>
         </div>
 
-        <div class='col-4' @mouseup="goto('door')">
+        <div class='col' @mouseup="goto('door')">
           <button class='btn btn-sm btn-outline-success'><small class='m-2'>Work</small></button>
         </div>
 
-        <div class='col-4' @mouseup="goto('frame')">
+        <div class='col' @mouseup="goto('frame')">
           <button class='btn btn-sm btn-outline-success'><small class='m-2'>Contact</small></button>
         </div>
 
@@ -153,7 +153,7 @@ export default {
     },
     addOrientationAnimation(){
       const el = document.querySelector(".orientation")
-      el.classList.add('animate__animated', 'animate__hinge', 'animate__delay-3s')
+      el.classList.add('animate__animated', 'animate__hinge', 'animate__delay-6s')
     }
   },
   mounted(){
@@ -182,11 +182,14 @@ export default {
     z-index:0;
   }
 
-  #info {
+  .appWrapper{
     position: fixed;
     z-index:1;
     top:0;
     left:13px;
+  }
+
+  #info {
     height:100% !important;
     width: 100% !important;
 
@@ -196,8 +199,8 @@ export default {
     z-index:3;
     width:50% !important;
     height:50% !important;
-    right:-8vw;
-    bottom:-28vh;
+    right:-6vw;
+    bottom:-36vh;
   }
 
   .btn{
